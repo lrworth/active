@@ -194,15 +194,13 @@ instance Affine Time where
 newtype Duration n = Duration n
   deriving (Eq, Ord, Show, Read, Enum, Num, Fractional, Real, RealFrac, Functor)
 
-makeWrapped ''Duration
-
 -- | A convenient wrapper function to convert a numeric value into a duration.
 toDuration :: n -> Duration n
 toDuration = Duration
 
 -- | A convenient unwrapper function to turn a duration into a numeric value.
 fromDuration :: Duration n -> n
-fromDuration = op Duration
+fromDuration (Duration n) = n
 
 instance Applicative Duration where
   pure = Duration
@@ -217,6 +215,8 @@ instance Num n => Semigroup (Duration n) where
 instance Num n => Monoid (Duration n) where
   mappend = (<>)
   mempty  = 0
+
+makeWrapped ''Duration
 
 -- | An @Era@ is a concrete span of time, that is, a pair of times
 --   representing the start and end of the era. @Era@s form a
